@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mubeen Fatima — IT Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --accent: #c8a96e;
+    --accent2: #7c6fcd;
+    --text: #e8e6f0;
+    --muted: #7a7890;
+    --bright: #f5f2ff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.25s ease, opacity 0.2s;
+    opacity: 0.5;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9997; opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.5rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,15,0.7);
+    border-bottom: 1px solid rgba(200,169,110,0.08);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-circle {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,111,205,0.12) 0%, transparent 70%);
+    top: 50%; right: -100px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .hero-bg-line {
+    position: absolute;
+    width: 1px; height: 60%;
+    background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+    left: 50%; top: 20%;
+    opacity: 0.15;
+  }
+
+  .hero-text { position: relative; z-index: 2; }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  h1.hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.05;
+    color: var(--bright);
+    font-weight: 900;
+    margin-bottom: 0.3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.4s;
+  }
+  h1.hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-role {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.55s;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.75;
+    max-width: 440px;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.7s;
+  }
+
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.85s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0f;
+    padding: 0.85rem 2rem;
+    border: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(200,169,110,0.3);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    padding: 0.85rem 2rem;
+    border: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Hero visual side */
+  .hero-visual {
+    display: flex; justify-content: center; align-items: center;
+    position: relative; z-index: 2;
+    opacity: 0;
+    animation: fadeIn 1.2s ease forwards 0.6s;
+  }
+
+  .hero-card {
+    width: 320px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+    position: relative;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 2rem; right: 2rem;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .hero-card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-row {
+    display: flex; justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--border);
+    padding: 0.85rem 0;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { font-size: 0.78rem; color: var(--muted); }
+  .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--bright);
+  }
+  .stat-sub { font-size: 0.7rem; color: var(--accent); margin-top: 0.1rem; }
+
+  /* Floating badges */
+  .badge {
+    position: absolute;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.5rem 0.9rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .badge-1 { top: -1.5rem; right: -2rem; animation: float 3s ease-in-out infinite; }
+  .badge-2 { bottom: -1.2rem; left: -2.5rem; animation: float 3.5s ease-in-out infinite 0.5s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* SECTION COMMON */
+  section { padding: 6rem 4rem; }
+
+  .section-header {
+    display: flex; align-items: center; gap: 1.5rem;
+    margin-bottom: 3.5rem;
+  }
+  .section-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    color: var(--bright);
+    font-weight: 700;
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text);
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+  .about-text p:first-child::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    float: left;
+    line-height: 0.85;
+    margin-right: 0.15rem;
+    color: var(--accent);
+  }
+
+  .skills-block h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .skills-wrap {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    margin-bottom: 2rem;
+  }
+  .skill-tag {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.35rem 0.85rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* EDUCATION */
+  .edu-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .edu-item {
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    align-items: start;
+    gap: 2rem;
+    padding: 1.8rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    transition: transform 0.2s;
+  }
+  .edu-item:hover { transform: translateX(4px); }
+  .edu-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    padding-top: 0.2rem;
+  }
+  .edu-degree {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--bright);
+    margin-bottom: 0.3rem;
+  }
+  .edu-inst {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .edu-grade {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--accent2);
+    text-align: right;
+  }
+  .edu-grade span {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2.2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: none;
+  }
+  .project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200,169,110,0.04), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    border-color: rgba(200,169,110,0.3);
+  }
+  .project-card:hover::after { opacity: 1; }
+
+  .project-card.featured {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+  }
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--bright);
+    margin-bottom: 0.7rem;
+    font-weight: 700;
+  }
+  .project-desc {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+  .project-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--accent2);
+    background: rgba(124,111,205,0.1);
+    border: 1px solid rgba(124,111,205,0.2);
+    padding: 0.25rem 0.6rem;
+    text-transform: uppercase;
+  }
+  .project-links { display: flex; gap: 1rem; align-items: center; }
+  .project-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-decoration: none;
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 0.4rem;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 0.7rem; }
+
+  .project-visual {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    min-height: 160px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--border);
+    letter-spacing: 0.1em;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-visual svg { opacity: 0.4; }
+  .proj-icon-wrap {
+    width: 56px; height: 56px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.2rem;
+    color: var(--accent);
+  }
+
+  /* CONTACT */
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .contact-text h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: var(--bright);
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .contact-text h2 em { font-style: italic; color: var(--accent); }
+  .contact-text p { font-size: 0.95rem; color: var(--muted); line-height: 1.7; }
+
+  .contact-details { display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-item {
+    display: flex; align-items: center; gap: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .contact-item:hover { border-color: var(--accent); }
+  .contact-item-icon {
+    width: 36px; height: 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .contact-item-info label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .contact-item-info a, .contact-item-info span {
+    font-size: 0.9rem;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-item-info a:hover { color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: var(--accent);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  /* Active nav dot */
+  .nav-dot {
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .nav-links a.active .nav-dot { opacity: 1; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+    .hero-visual { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .edu-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .edu-grade { text-align: left; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MF</div>
+  <div class="nav-links">
+    <a href="#about"><span class="nav-dot"></span>About</a>
+    <a href="#education"><span class="nav-dot"></span>Education</a>
+    <a href="#projects"><span class="nav-dot"></span>Projects</a>
+    <a href="#contact"><span class="nav-dot"></span>Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-circle"></div>
+  <div class="hero-bg-line"></div>
+
+  <div class="hero-text">
+    <p class="hero-tag">// Available for Internship · 2026</p>
+    <h1 class="hero-name">Mubeen<br><em>Fatima</em></h1>
+    <p class="hero-role">BS Information Technology · University of Gujrat · CGPA 3.48</p>
+    <p class="hero-desc">
+      A driven IT undergraduate passionate about building intuitive web experiences and exploring software solutions. Currently in my second year, bridging curiosity with code.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View My Work →</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div style="position:relative;">
+      <div class="badge badge-1">Open to Opportunities</div>
+      <div class="hero-card">
+        <div class="hero-card-label">// Quick Stats</div>
+        <div class="stat-row">
+          <div>
+            <div class="stat-label">Current CGPA</div>
+            <div class="stat-sub">Semester 3</div>
+          </div>
+          <div class="stat-val">3.48</div>
+        </div>
+        <div class="stat-row">
+          <div>
+            <div class="stat-label">Projects Built</div>
+            <div class="stat-sub">Personal</div>
+          </div>
+          <div class="stat-val">4</div>
+        </div>
+        <div class="stat-row">
+          <div>
+            <div class="stat-label">Matric Score</div>
+            <div class="stat-sub">Biology</div>
+          </div>
+          <div class="stat-val">970</div>
+        </div>
+        <div class="stat-row">
+          <div>
+            <div class="stat-label">FSc Score</div>
+            <div class="stat-sub">Pre-Medical</div>
+          </div>
+          <div class="stat-val">945</div>
+        </div>
+      </div>
+      <div class="badge badge-2">HTML · CSS · JS · Python</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About Me</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I'm Mubeen Fatima, a second-year Bachelor's student in Information Technology at the University of Gujrat — with a growing passion for web development and software engineering. Having transitioned from a Pre-Medical background, I bring a uniquely analytical perspective to technology problems.
+      </p>
+      <p>
+        My journey into tech started with building websites from scratch, and I've since cultivated skills across front-end development, version control, and foundational computer science concepts. I'm actively seeking my first internship to translate academic knowledge into real-world impact.
+      </p>
+      <p>
+        Beyond the screen, I'm an avid reader with a love for books across diverse genres — a habit that sharpens my critical thinking and keeps my perspective broad.
+      </p>
+    </div>
+    <div class="reveal">
+      <div class="skills-block">
+        <h3>Languages</h3>
+        <div class="skills-wrap">
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Python</span>
+        </div>
+        <h3>Tools & Platforms</h3>
+        <div class="skills-wrap">
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">VS Code</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">Windows</span>
+        </div>
+        <h3>CS Fundamentals</h3>
+        <div class="skills-wrap">
+          <span class="skill-tag">Data Structures</span>
+          <span class="skill-tag">Algorithms</span>
+          <span class="skill-tag">OOP</span>
+          <span class="skill-tag">DBMS</span>
+          <span class="skill-tag">Computer Networks</span>
+          <span class="skill-tag">OS</span>
+          <span class="skill-tag">Software Engineering</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" style="background: var(--surface);">
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-list">
+    <div class="edu-item reveal">
+      <div class="edu-year">2024 — 2028</div>
+      <div>
+        <div class="edu-degree">BS Information Technology</div>
+        <div class="edu-inst">University of Gujrat</div>
+      </div>
+      <div class="edu-grade">3.48 <span>CGPA · Sem 3</span></div>
+    </div>
+    <div class="edu-item reveal">
+      <div class="edu-year">2022 — 2024</div>
+      <div>
+        <div class="edu-degree">FSc Pre-Medical</div>
+        <div class="edu-inst">Punjab Group of Colleges, Alipur Chattha</div>
+      </div>
+      <div class="edu-grade">945 <span>Marks</span></div>
+    </div>
+    <div class="edu-item reveal">
+      <div class="edu-year">2018 — 2020</div>
+      <div>
+        <div class="edu-degree">Matriculation (Biology)</div>
+        <div class="edu-inst">Punjab Group of Colleges, Alipur Chattha</div>
+      </div>
+      <div class="edu-grade">970 <span>Marks</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Featured: School Website -->
+    <div class="project-card featured reveal">
+      <div>
+        <div class="project-num">Project 01 · 2023</div>
+        <div class="project-title">School Website</div>
+        <div class="project-desc">
+          A fully functional school website designed and developed from scratch. Features a responsive layout ensuring seamless cross-device compatibility — from desktops to smartphones. Focused on clean information architecture, structured content, and an accessible user interface suited for students, parents, and staff.
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">HTML5</span>
+          <span class="project-tag">CSS3</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Responsive Design</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/mubeenfatima-commits" target="_blank" class="project-link">GitHub →</a>
+        </div>
+      </div>
+      <div class="project-visual">
+        <svg width="120" height="100" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="20" width="100" height="70" rx="2" stroke="#c8a96e" stroke-width="1.5"/>
+          <rect x="10" y="20" width="100" height="14" rx="2" fill="#c8a96e" opacity="0.15"/>
+          <circle cx="20" cy="27" r="3" fill="#c8a96e" opacity="0.5"/>
+          <circle cx="30" cy="27" r="3" fill="#c8a96e" opacity="0.3"/>
+          <circle cx="40" cy="27" r="3" fill="#c8a96e" opacity="0.2"/>
+          <rect x="20" y="44" width="35" height="4" rx="1" fill="#7c6fcd" opacity="0.4"/>
+          <rect x="20" y="52" width="55" height="2" rx="1" fill="#c8a96e" opacity="0.2"/>
+          <rect x="20" y="58" width="45" height="2" rx="1" fill="#c8a96e" opacity="0.15"/>
+          <rect x="20" y="64" width="50" height="2" rx="1" fill="#c8a96e" opacity="0.15"/>
+          <rect x="70" y="44" width="30" height="28" rx="1" stroke="#7c6fcd" stroke-width="1" opacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Company Website -->
+    <div class="project-card reveal">
+      <div class="proj-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="2" y="3" width="20" height="14" rx="2"/>
+          <path d="M8 21h8M12 17v4"/>
+        </svg>
+      </div>
+      <div class="project-num">Project 02 · 2024</div>
+      <div class="project-title">Company Landing Page</div>
+      <div class="project-desc">
+        A modern company landing page with interactive UI components. Built with emphasis on clean design, strong visual hierarchy, and structured content layout — optimised to guide visitors through a compelling user journey.
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">HTML5</span>
+        <span class="project-tag">CSS3</span>
+        <span class="project-tag">JavaScript</span>
+        <span class="project-tag">UI/UX</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/mubeenfatima-commits" target="_blank" class="project-link">GitHub →</a>
+      </div>
+    </div>
+
+    <!-- Portfolio Website -->
+    <div class="project-card reveal">
+      <div class="proj-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <div class="project-num">Project 03 · 2026</div>
+      <div class="project-title">Personal Portfolio</div>
+      <div class="project-desc">
+        This very portfolio — designed and built to showcase my work, skills, and background. Combines editorial typography with a refined dark aesthetic and subtle micro-interactions to create a memorable developer identity.
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">HTML5</span>
+        <span class="project-tag">CSS3</span>
+        <span class="project-tag">JavaScript</span>
+        <span class="project-tag">Design</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/mubeenfatima-commits" target="_blank" class="project-link">GitHub →</a>
+      </div>
+    </div>
+
+    <!-- Python CLI Project -->
+    <div class="project-card reveal" style="grid-column: span 2;">
+      <div class="proj-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="16 18 22 12 16 6"/>
+          <polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </div>
+      <div class="project-num">Project 04 · 2025</div>
+      <div class="project-title">Python CLI Student Record System</div>
+      <div class="project-desc">
+        A command-line application built in Python to manage student records — featuring CRUD operations (create, read, update, delete), file-based data persistence, and structured menu-driven navigation. Developed as a practical application of OOP principles and DSA concepts from coursework.
+      </div>
+      <div class="project-tags">
+        <span class="project-tag">Python</span>
+        <span class="project-tag">OOP</span>
+        <span class="project-tag">CLI</span>
+        <span class="project-tag">Data Structures</span>
+        <span class="project-tag">File I/O</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/mubeenfatima-commits" target="_blank" class="project-link">GitHub →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background: var(--surface);">
+  <div class="contact-inner">
+    <div class="contact-text reveal">
+      <h2>Let's Build<br>Something <em>Together</em></h2>
+      <p style="margin-top:1rem;">
+        I'm actively looking for internship opportunities where I can contribute, grow, and learn alongside a great team. If you think I'd be a good fit, I'd love to hear from you.
+      </p>
+    </div>
+    <div class="contact-details reveal">
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <div class="contact-item-info">
+          <label>Email</label>
+          <a href="mailto:mubeenfatima56267@gmail.com">mubeenfatima56267@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.06 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
+          </svg>
+        </div>
+        <div class="contact-item-info">
+          <label>Phone</label>
+          <a href="tel:+923005551034">+92-300-555-1034</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+          </svg>
+        </div>
+        <div class="contact-item-info">
+          <label>GitHub</label>
+          <a href="https://github.com/mubeenfatima-commits" target="_blank">github.com/mubeenfatima-commits</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          </svg>
+        </div>
+        <div class="contact-item-info">
+          <label>WhatsApp</label>
+          <a href="https://wa.me/923415985568" target="_blank">+92-341-598-5568</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 — All rights reserved</div>
+  <div class="footer-name">Mubeen Fatima</div>
+  <div class="footer-copy">Built with HTML · CSS · JS</div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.querySelectorAll('a, button, .project-card, .skill-tag').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      cursor.style.background = 'transparent';
+      cursor.style.border = '2px solid var(--accent)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      cursor.style.background = 'var(--accent)';
+      cursor.style.border = 'none';
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Active nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
